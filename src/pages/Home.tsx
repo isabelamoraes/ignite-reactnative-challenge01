@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import { View, Alert, TouchableOpacity, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Header } from '../components/Header';
 import { MyTasksList } from '../components/MyTasksList';
 import { TodoInput } from '../components/TodoInput';
+
+import styles from '../styles/styles';
 
 interface Task {
   id: number;
@@ -13,6 +16,7 @@ interface Task {
 
 export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [theme, setTheme] = useState(styles.theme1)
 
   function handleAddTask(newTaskTitle: string) {
     //Add new task if it's not empty
@@ -24,7 +28,7 @@ export function Home() {
       }
 
       setTasks(oldState => [...oldState, data]);
-    }else{
+    } else {
       Alert.alert("Task não informada 😔", "Por favor, digite uma tarefa para adicionar")
     }
   }
@@ -35,9 +39,9 @@ export function Home() {
 
     tasks.map((task, index) => {
       console.log("map")
-      if(task.id == id){
+      if (task.id == id) {
         newTask[index].done = !task.done;
-      }      
+      }
     });
 
     setTasks(newTask)
@@ -50,17 +54,44 @@ export function Home() {
     ));
   }
 
-  return (
-    <>
-      <Header />
+  function handleChangeTheme(): void {
+    switch (theme) {
+      case styles.theme1:
+        setTheme(styles.theme2)
+        break;
+      case styles.theme2:
+        setTheme(styles.theme3)
+        break;
+      case styles.theme3:
+        setTheme(styles.theme4)
+        break;
+      case styles.theme4:
+        setTheme(styles.theme5)
+        break;
+      case styles.theme5:
+        setTheme(styles.theme6)
+        break;
+      case styles.theme6:
+        setTheme(styles.theme1)
+        break;
+      default:
+        break;
+    }
+  }
 
-      <TodoInput addTask={handleAddTask} />
+  return (
+    <View style={theme.home}>
+      <Header theme={theme.header}/>
+
+      <TodoInput addTask={handleAddTask} theme={theme.todoInput} />
 
       <MyTasksList
         tasks={tasks}
         onPress={handleMarkTaskAsDone}
         onLongPress={handleRemoveTask}
+        changeTheme={handleChangeTheme}
+        theme={theme.task}
       />
-    </>
+    </View>
   )
 }

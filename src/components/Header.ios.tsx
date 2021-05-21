@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 
+import colors from '../styles/colors';
+
 export function Header() {
   return (
     <SafeAreaView style={styles.container}>
@@ -14,18 +16,18 @@ export function Header() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#273FAD',
+    backgroundColor: colors.theme1.header,
   },
   header: {
     paddingBottom: 44,
-    backgroundColor: '#273FAD',
+    backgroundColor: colors.theme1.header,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row'
   },
   headerText: {
     fontSize: 24,
-    color: '#FFF',
+    color: colors.theme1.headerText,
     fontFamily: 'Poppins-Regular',
   }
 });

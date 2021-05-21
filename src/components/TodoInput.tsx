@@ -5,9 +5,22 @@ import checkIcon from '../assets/icons/Check.png';
 
 interface TodoInputProps {
   addTask: (task: string) => void;
+  theme: {
+    inputContainer: {
+    },
+    input: {
+    },
+    inputIOSShadow: {
+    },
+    inputAndroidShadow: {
+    },
+    addButton: {
+    },
+    colorPlaceholder: string
+  }
 }
 
-export function TodoInput({ addTask }: TodoInputProps) {
+export function TodoInput({ addTask, theme }: TodoInputProps) {
   const [task, setTask] = useState('');
 
   function handleAddNewTask() {
@@ -17,11 +30,12 @@ export function TodoInput({ addTask }: TodoInputProps) {
   }
 
   return (
-    <View style={[styles.inputContainer, Platform.OS === 'ios' ? styles.inputIOSShadow : styles.inputAndroidShadow]}>
-      <TextInput 
-        style={styles.input} 
+    <View style={[theme.inputContainer, Platform.OS === 'ios' ? theme.inputIOSShadow : theme.inputAndroidShadow]}>
+      <TextInput
+        style={theme.input}
         placeholder="Adicionar novo todo..."
         returnKeyType="send"
+        placeholderTextColor={theme.colorPlaceholder}
         //Use value, onChangeText and onSubmitEditing props
         value={task}
         onChangeText={setTask}
@@ -30,7 +44,7 @@ export function TodoInput({ addTask }: TodoInputProps) {
       <TouchableOpacity
         testID="add-new-task-button"
         activeOpacity={0.7}
-        style={styles.addButton}
+        style={theme.addButton}
         //onPress prop
         onPress={handleAddNewTask}
       >
@@ -39,43 +53,3 @@ export function TodoInput({ addTask }: TodoInputProps) {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  inputContainer: {
-    backgroundColor: '#F5F4F8',
-    borderRadius: 5,
-    marginTop: -25,
-    marginHorizontal: 40,
-    height: 50,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    flex: 1,
-    backgroundColor: '#F5F4F8',
-    paddingLeft: 12,
-    borderTopLeftRadius: 5,
-    borderBottomLeftRadius: 5,
-  },
-  inputIOSShadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84
-  },
-  inputAndroidShadow: {
-    elevation: 5
-  },
-  addButton: {
-    backgroundColor: '#3FAD27',
-    height: 50,
-    paddingHorizontal: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopRightRadius: 5,
-    borderBottomRightRadius: 5,
-  },
-});
